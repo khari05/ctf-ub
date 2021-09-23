@@ -4,10 +4,11 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update
 RUN apt-get install -yq tmux vim nano \
-  pip python python-gmpy2-common \
+  pip python \
   binwalk steghide file imagemagick zbar-tools \
   radare2 gdb \
   john hashcat ophcrack \
+  python-gmpy2-common sagemath \
   netcat
 RUN apt-get clean
 

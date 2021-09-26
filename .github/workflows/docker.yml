@@ -4,6 +4,10 @@ on:
   push:
     branches: [master]
 
+env:
+  GH_PACKAGE: ghcr.io/${{ github.repository }}:latest
+  DOCKER_PACKAGE: docker.io/khari05/ctf-ub:latest
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -36,8 +40,8 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest-amd64
-            khari05/ctf-ub:latest-amd64
+            ${{ env.GH_PACKAGE }}-amd64
+            ${{ env.DOCKER_PACKAGE }}-amd64
       - name: Build and push arm64 image
         uses: docker/build-push-action@v2
         with:
@@ -45,14 +49,19 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:latest-arm64
-            khari05/ctf-ub:latest-arm64
-      - name: Push both
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          platforms: linux/amd64, linux/arm64
-          push: true
-          tags: |
-            ghcr.io/${{ github.repository }}:latest
-            khari05/ctf-ub:latest
+            ${{ env.GH_PACKAGE }}-arm64
+            ${{ env.DOCKER_PACKAGE }}-arm64
+      - name: Make a combined manifest for DockerHub
+        run: docker manifest create \
+          ${{ env.DOCKER_PACKAGE }} \
+          --amend ${{ env.DOCKER_PACKAGE }}-amd64 \
+          --amend ${{ env.DOCKER_PACKAGE }}-arm64
+      - name: Make a combined manifest for GHCR
+        run: docker manifest create \
+          ${{ env.DOCKER_PACKAGE }} \
+          --amend ${{ env.GH_PACKAGE }}-amd64 \
+          --amend ${{ env.GH_PACKAGE }}-arm64
+      - name: Push manifest to DockerHub
+        run: docker manifest push ${{ env.DOCKER_PACKAGE }}
+      - name: Push manifest to GHCR
+        run: docker manifest push  ${{ env.GH_PACKAGE }}

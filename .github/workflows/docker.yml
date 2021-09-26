@@ -6,7 +6,7 @@ on:
 
 env:
   GH_PACKAGE: ghcr.io/${{ github.repository }}:latest
-  DOCKER_PACKAGE: docker.io/khari05/ctf-ub:latest
+  DOCKER_PACKAGE: khari05/ctf-ub:latest
 
 jobs:
   deploy:

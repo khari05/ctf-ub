@@ -51,17 +51,15 @@ jobs:
           tags: |
             ${{ env.GH_PACKAGE }}-arm64
             ${{ env.DOCKER_PACKAGE }}-arm64
-      - name: Make a combined manifest for DockerHub
-        run: docker manifest create \
-          "${{ env.DOCKER_PACKAGE }}" \
-          --amend "${{ env.DOCKER_PACKAGE }}-amd64" \
-          --amend "${{ env.DOCKER_PACKAGE }}-arm64"
-      - name: Make a combined manifest for GHCR
-        run: docker manifest create \
-          "${{ env.GH_PACKAGE }}" \
-          --amend "${{ env.GH_PACKAGE }}-amd64" \
-          --amend "${{ env.GH_PACKAGE }}-arm64"
-      - name: Push manifest to DockerHub
-        run: docker manifest push ${{ env.DOCKER_PACKAGE }}
-      - name: Push manifest to GHCR
-        run: docker manifest push  ${{ env.GH_PACKAGE }}
+      - name: Push a combined image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64, linux/arm64
+          cache-from: |
+            ${{ env.DOCKER_PACKAGE }}-amd64
+            ${{ env.DOCKER_PACKAGE }}-arm64
+          push: true
+          tags: |
+            ${{ env.GH_PACKAGE }}
+            ${{ env.DOCKER_PACKAGE }}

@@ -9,7 +9,7 @@ RUN apt-get install -yq tmux vim nano \
   radare2 gdb \
   john hashcat ophcrack \
   python-gmpy2-common sagemath \
-  netcat
+  netcat nmap telnet
 RUN apt-get clean
 
 COPY requirements.txt .

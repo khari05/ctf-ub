@@ -6,7 +6,7 @@ on:
 
 env:
   GH_PACKAGE: ghcr.io/${{ github.repository }}:latest
-  DOCKER_PACKAGE: khari05/ctf-ub:latest
+  DOCKER_PACKAGE: ${{ secrets.DOCKER_USERNAME }}/ctf-ub:latest
 
 jobs:
   deploy:
@@ -58,7 +58,7 @@ jobs:
           --amend ${{ env.DOCKER_PACKAGE }}-arm64
       - name: Make a combined manifest for GHCR
         run: docker manifest create \
-          ${{ env.DOCKER_PACKAGE }} \
+          ${{ env.GH_PACKAGE }} \
           --amend ${{ env.GH_PACKAGE }}-amd64 \
           --amend ${{ env.GH_PACKAGE }}-arm64
       - name: Push manifest to DockerHub

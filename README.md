@@ -12,6 +12,9 @@ Download the image with docker pull.
 $ docker pull khari05/ctf-ub
 ```
 ### Run with Docker
+```bash
+$ docker run --rm -it -v <path-to-your-shared-dir>:/stuff khari05/ctf-ub
+```
 `--rm` makes the container auto remove on exit
 
 `-i` keeps the image open when no process is running
@@ -19,9 +22,6 @@ $ docker pull khari05/ctf-ub
 `-t` opens the shell
 
 `-v` maps volumes
-```bash
-$ docker run --rm -it -v <path-to-your-shared-dir>:/stuff khari05/ctf-ub bash
-```
 
 ### Run with Docker Compose
 

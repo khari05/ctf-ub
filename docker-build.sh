@@ -9,10 +9,12 @@ wait
 docker manifest create $DOCKER_TAG --amend $DOCKER_TAG-arm64 --amend $DOCKER_TAG-amd64
 docker manifest create $GH_TAG --amend $GH_TAG-arm64 --amend $GH_TAG-amd64
 
-docker push $DOCKER_TAG-arm64
-docker push $DOCKER_TAG-amd64
-docker push $GH_TAG-arm64
+docker push $DOCKER_TAG-arm64 &
+docker push $DOCKER_TAG-amd64 &
+docker push $GH_TAG-arm64 &
 docker push $GH_TAG-amd64
+
+wait
 
 docker manifest push $DOCKER_TAG
 docker manifest push $GH_TAG

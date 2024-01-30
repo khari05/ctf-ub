@@ -2,3 +2,6 @@ uncompyle6
 pwntools
 pycryptodome
 gmpy2
+toutatis
+holehe
+twint

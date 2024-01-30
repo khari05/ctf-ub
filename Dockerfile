@@ -6,13 +6,14 @@ RUN yes | unminimize
 
 RUN apt update && apt install -yq \
   tmux git vim nano man-db \
-  pip python \
+  pip python3 \
   binwalk steghide file imagemagick zbar-tools multimon-ng outguess \
-  radare2 gdb \
+  gdb \
   john hashcat ophcrack \
   python-gmpy2-common sagemath \
   netcat telnet \
   nmap traceroute aircrack-ng \
+  device-tree-compiler \
   && apt clean
 
 COPY requirements.txt .
